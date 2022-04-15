@@ -48,7 +48,7 @@
       */
       getPermissions(roleId) {
         this.$API.permission.toAssign(roleId).then(result => {
-          const allPermissions = result.data.children
+          const allPermissions = result.data
           this.allPermissions = allPermissions
           const checkedIds = this.getCheckedIds(allPermissions)
           // console.log('getPermissions() checkedIds', checkedIds)

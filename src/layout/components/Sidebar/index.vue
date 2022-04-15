@@ -29,13 +29,9 @@ export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
-      'sidebar'
+      'sidebar',
+      'routes'
     ]),
-    //应该替换为仓库中已经计算好的需要展示的全部路由
-    routes() {
-      //sliderbar：需要遍历的应该是仓库计算完毕的全部路由
-      return this.$store.state.user.resultAllRputes;
-    },
     activeMenu() {
       const route = this.$route
       const { meta, path } = route

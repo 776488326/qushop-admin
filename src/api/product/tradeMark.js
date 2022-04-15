@@ -1,8 +1,9 @@
 //这个模块主要获取的是品牌管理的数据的模块
 import request from '@/utils/request';
-//获取品牌列表接口
-///admin/product/baseTrademark/{page}/{limit}
-export const reqTradeMarkList = (page, limit) => request({ url: `/admin/product/baseTrademark/${page}/${limit}`, method: 'get' });
+
+export const reqTradeMarkList = (page, limit) => request({ url: `/admin/product/baseTrademark/list`, method: 'get',params:{
+    page,limit
+} });
 
 
 //处理添加品牌
@@ -15,7 +16,7 @@ export const reqTradeMarkList = (page, limit) => request({ url: `/admin/product/
 
 export const reqAddOrUpdateTradeMark = (tradeMark) => {
     //带给服务器数据携带ID---修改
-    if (tradeMark.id) {
+    if (tradeMark._id) {
         return request({ url: '/admin/product/baseTrademark/update', method: 'put', data: tradeMark });
     } else {
         //新增品牌
@@ -25,7 +26,7 @@ export const reqAddOrUpdateTradeMark = (tradeMark) => {
 //删除品牌
 ///admin/product/baseTrademark/remove/{id}  delete
 
-export const reqDeleteTradeMark = (id)=>request({url:`/admin/product/baseTrademark/remove/${id}`,method:'delete'});
+export const reqDeleteTradeMark = (id)=>request({url:`/admin/product/baseTrademark/remove/`,method:'delete',params:{"_id":id}});
 
 
 

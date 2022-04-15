@@ -3,16 +3,16 @@
 */
 import request from '@/utils/request'
 
-const api_name = '/admin/acl/role'
+const api_name = '/admin/roles'
 
 export default {
 
   /* 
   获取角色分页列表(带搜索)
   */
-  getPageList(page, limit, searchObj) {
+  getPageList(searchObj) {
     return request({
-      url: `${api_name}/${page}/${limit}`,
+      url: `${api_name}/list/`,
       method: 'get',
       params: searchObj // url查询字符串或表单键值对
     })
@@ -23,8 +23,11 @@ export default {
   */
   getById(id) {
     return request({
-      url: `${api_name}/get/${id}`,
-      method: 'get'
+      url: `${api_name}/info/`,
+      method: 'get',
+      params:{
+        roleId:id
+      }
     })
   },
 
@@ -33,7 +36,7 @@ export default {
   */
   save(role) {
     return request({
-      url: `${api_name}/save`,
+      url: `${api_name}/add`,
       method: 'post',
       data: role
     })
@@ -55,8 +58,12 @@ export default {
   */
   getAssign(roleId) {
     return request({
-      url: `${api_name}/toAssign/${roleId}`,
-      method: 'get'
+      url: `${api_name}/info/`,
+      method: 'get',
+      params: {
+        roleId,
+        authority:true
+      }
     })
   },
 

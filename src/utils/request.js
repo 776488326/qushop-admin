@@ -46,7 +46,7 @@ service.interceptors.response.use(
     const res = response.data
 
     //服务器响应失败在干什么,因为咱们真实服务器返回code  20000也有可能200
-    if (res.code !== 20000 && res.code!=200) {
+    if (res.code!=200) {
       Message({
         message: res.message || 'Error',
         type: 'error',

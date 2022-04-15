@@ -22,7 +22,7 @@ const getDefaultState = () => {
     roles:[],
     //按钮权限的信息
     buttons:[],
-    //对比之后【项目中已有的异步路由，与服务器返回的标记信息进行对比最终需要展示的理由】
+    //对比之后【项目中已有的异步路由，与服务器返回的标记信息进行对比最终需要展示的路由】
     resultAsyncRoutes:[],
     //用户最终需要展示全部路由
     resultAllRputes:[]
@@ -44,7 +44,7 @@ const mutations = {
   //存储用户信息
   SET_USERINFO:(state,userInfo)=>{
     //用户名
-     state.name = userInfo.name;
+     state.name = userInfo.username;
      //用户头像
      state.avatar = userInfo.avatar;
      //菜单权限标记
@@ -61,7 +61,7 @@ const mutations = {
      //计算出当前用户需要展示所有路由
      state.resultAllRputes = constantRoutes.concat(state.resultAsyncRoutes,anyRoutes);
      //给路由器添加新的路由
-      router.addRoutes(state.resultAllRputes)
+      router.addRoutes([...asyncRoutes,anyRoutes]);
   }
 }
 
@@ -89,12 +89,13 @@ const actions = {
     const { username, password } = userInfo;
     let result = await login({ username: username.trim(), password: password });
     //注意：当前登录请求现在使用mock数据，mock数据code是20000
-    if(result.code==20000){
+    console.log(result);
+    if(result.code==200){
       //vuex存储token
       commit('SET_TOKEN',result.data.token);
       //本地持久化存储token
       setToken(result.data.token);
-      return 'ok';
+      return result.msg;
     }else{
       return Promise.reject(new Error('faile'));
     }

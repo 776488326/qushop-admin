@@ -97,7 +97,7 @@
           -->
           <el-upload
             class="avatar-uploader"
-            action="/dev-api/admin/product/fileUpload"
+            action="/dev-api/admin/product/baseTrademark/upload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -213,10 +213,11 @@ export default {
       //file:上传成功之后服务器返回前端数据
       //收集品牌图片数据，因为将来需要带给服务器
       this.tmForm.logoUrl = res.data;
+      console.log(res.data);
     },
     //图片上传之前
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
+      const isJPG = file.type === "image/jpeg"|| file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
@@ -265,7 +266,7 @@ export default {
         .then(async () => {
           //当用户点击确定按钮的时候会出发
           //向服务器发请求
-          let result = await this.$API.trademark.reqDeleteTradeMark(row.id);
+          let result = await this.$API.trademark.reqDeleteTradeMark(row._id);
           //如果删除成功
           if (result.code == 200) {
             this.$message({

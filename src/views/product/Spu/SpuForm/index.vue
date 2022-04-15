@@ -29,7 +29,7 @@
          on-remove:删除图片的时候会触发
         -->
         <el-upload
-          action="/dev-api/admin/product/fileUpload"
+          action="/dev-api/admin/product/spu/upload"
           list-type="picture-card"
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemove"
@@ -172,6 +172,8 @@ export default {
           //   ],
           // },
         ],
+        spuImageList:[],
+        saleAttrList:[]
       },
       tradeMarkList: [], //存储品牌信息
       spuImageList: [], //存储SPU图片的数据
@@ -204,24 +206,19 @@ export default {
       if (spuResult.code == 200) {
         //在修改spu的时候,需要向服务器发请求的，把服务器返回的数据（对象），赋值给spu属性
         this.spu = spuResult.data;
+        //获取spu图片的数据
+        let listArr = spuResult.data.spuImageList;
+        listArr.forEach((item) => {
+          item.name = item.imageName;
+          item.url = item.imageUrl;
+        });
+        //把整理好的数据赋值给
+        this.spuImageList = listArr;
       }
       //获取品牌的信息
       let tradeMarkResult = await this.$API.spu.reqTradeMarkList();
       if (tradeMarkResult.code == 200) {
         this.tradeMarkList = tradeMarkResult.data;
-      }
-      //获取spu图片的数据
-      let spuImageResult = await this.$API.spu.reqSpuImageList(spu.id);
-      if (spuImageResult.code == 200) {
-        let listArr = spuImageResult.data;
-        //由于照片墙显示图片的数据需要数组，数组里面的元素需要有name与url字段
-        //需要把服务器返回的数据进行修改
-        listArr.forEach((item) => {
-          item.name = item.imgName;
-          item.url = item.imgUrl;
-        });
-        //把整理好的数据赋值给
-        this.spuImageList = listArr;
       }
       //获取平台全部的销售属性
       let saleResult = await this.$API.spu.reqBaseSaleAttrList();

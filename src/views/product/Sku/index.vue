@@ -61,6 +61,7 @@
             type="danger"
             icon="el-icon-delete"
             size="mini"
+            @click="delSku(row._id)"
           ></el-button>
         </template>
       </el-table-column>
@@ -150,7 +151,7 @@ export default {
     },
     //上架
     async sale(row) {
-      let result = await this.$API.sku.reqSale(row.id);
+      let result = await this.$API.sku.reqSale(row._id);
       if (result.code == 200) {
         row.isSale = 1;
         this.$message({ type: "success", message: "上架成功" });
@@ -158,10 +159,22 @@ export default {
     },
     //下架
     async cancel(row) {
-      let result = await this.$API.sku.reqCancel(row.id);
+      let result = await this.$API.sku.reqCancel(row._id);
       if (result.code == 200) {
         row.isSale = 0;
         this.$message({ type: "success", message: "下架成功" });
+      }
+    },
+    //删除
+    async delSku(id){
+      try {
+        const res = await this.$API.sku.reqDelSku(id);
+        if(res.code==200){
+          this.$message({type:"success",message:res.msg});
+          this.getSkuList();
+        }
+      } catch (error) {
+        this.$message({type:"error",message:"请求失败！"})
       }
     },
     edit() {
@@ -172,7 +185,7 @@ export default {
       //展示抽屉
       this.show = true;
       //获取SKU数据
-      let result = await this.$API.sku.reqSkuById(sku.id);
+      let result = await this.$API.sku.reqSkuById(sku._id);
       if(result.code==200){
          this.skuInfo = result.data;
       }
@@ -209,7 +222,7 @@ export default {
      margin:10px 10px;
    }
 
-   >>>.el-carousel__button{
+  .el-carousel__button{
     width:10px;
     height:10px;
     background:red;

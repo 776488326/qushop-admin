@@ -4,7 +4,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">登录</h3>
+        <h3 class="title">趣购物后台管理系统</h3>
       </div>
 
       <el-form-item prop="username">
@@ -42,12 +42,7 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;color:#777;background-color:transparent;border-color:#f70;" @click.native.prevent="handleLogin">登录</el-button>
 
     </el-form>
   </div>
@@ -140,8 +135,8 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
+$light_gray:#777;
+$cursor: #777;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -185,7 +180,7 @@ $cursor: #fff;
 <style lang="scss" scoped>
 $bg:#2d3a4b;
 $dark_gray:#889aa4;
-$light_gray:#eee;
+$light_gray:#777;
 
 .login-container {
   min-height: 100%;
@@ -205,7 +200,7 @@ $light_gray:#eee;
 
   .tips {
     font-size: 14px;
-    color: #fff;
+    color: #777;
     margin-bottom: 10px;
 
     span {
@@ -214,7 +209,7 @@ $light_gray:#eee;
       }
     }
   }
-
+  
   .svg-container {
     padding: 6px 5px 6px 15px;
     color: $dark_gray;
@@ -228,7 +223,7 @@ $light_gray:#eee;
 
     .title {
       font-size: 26px;
-      color: $light_gray;
+      color: #777;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;

@@ -163,8 +163,10 @@ export default {
     getRoles(page = 1) {
       this.page = page
       this.listLoading = true
-      const {limit, searchObj} = this
-      this.$API.role.getPageList(page, limit, searchObj).then(
+      const searchObj = this.searchObj;
+      searchObj.limit = this.limit;
+      searchObj.page = page;
+      this.$API.role.getPageList(searchObj).then(
         result => {
           const {items, total} = result.data
           this.roles = items.map(item => {

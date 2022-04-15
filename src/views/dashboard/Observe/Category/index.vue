@@ -4,9 +4,7 @@
       <div class="category-header">
         <span>销售额类别占比</span>
         <el-radio-group v-model="value">
-          <el-radio-button label="全部渠道"></el-radio-button>
           <el-radio-button label="线上"></el-radio-button>
-          <el-radio-button label="门店"></el-radio-button>
         </el-radio-group>
       </div>
     </div>
@@ -22,7 +20,7 @@ export default {
   name: "",
   data() {
     return {
-      value: "全部渠道",
+      value: "线上",
     };
   },
   mounted() {
@@ -94,6 +92,6 @@ export default {
 }
 .charts {
   width: 100%;
-  height: 300px;
+  height: 500px;
 }
 </style>

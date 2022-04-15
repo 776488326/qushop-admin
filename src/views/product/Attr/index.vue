@@ -41,6 +41,7 @@
                 type="danger"
                 icon="el-icon-delete"
                 size="mini"
+                @click="deleteAttr(row)"
               ></el-button>
             </template>
           </el-table-column>
@@ -159,11 +160,9 @@ export default {
     //当用户确定三级分类的数据时候，可以向服务器发请求获取平台属性进行展示
     async getAttrList() {
       //获取分类的ID
-      const { category1Id, category2Id, category3Id } = this;
+      const {category3Id } = this;
       //获取属性列表的数据
       let result = await this.$API.attr.reqAttrList(
-        category1Id,
-        category2Id,
         category3Id
       );
       if (result.code == 200) {
@@ -216,6 +215,17 @@ export default {
         //第一个参数:对象  第二个参数:添加新的响应式属性  第三参数：新的属性的属性值
         this.$set(item, "flag", false);
       });
+    },
+    deleteAttr(row){
+      console.log(row);
+      this.$API.attr.reqDeleteAttr(row._id);
+      try {
+        //提示消失
+        this.$message({type:'success',message:'删除成功'});
+        this.getAttrList();
+      } catch (error) {
+        console.error(error);
+      }
     },
     //失却焦点的事件---切换为查看模式，展示span
     toLook(row) {

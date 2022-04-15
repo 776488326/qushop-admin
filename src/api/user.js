@@ -4,7 +4,7 @@ import request from '@/utils/request'
 //对外暴露登录接口函数
 export function login(data) {
   return request({
-    url: '/admin/acl/index/login',
+    url: '/admin/login',
     method: 'post',
     data
   })
@@ -12,7 +12,7 @@ export function login(data) {
 //对外暴露获取用户信息的函数
 export function getInfo(token) {
   return request({
-    url: '/admin/acl/index/info',
+    url: '/admin/info',
     method: 'get',
     params: { token }
   })
@@ -20,7 +20,7 @@ export function getInfo(token) {
 //对外暴露退出登录函数
 export function logout() {
   return request({
-    url: '/admin/acl/index/logout',
+    url: '/admin/logout',
     method: 'post'
   })
 }
