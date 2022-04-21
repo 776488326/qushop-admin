@@ -17,7 +17,7 @@
     <el-table
       border
       stripe
-      style="width: 960px"
+      style="width: 100%"
       v-loading="listLoading"
       :data="roles"
       @selection-change="handleSelectionChange">
@@ -54,7 +54,7 @@
       <el-table-column label="操作" width="300" align="center">
         <template slot-scope="{row}">
           <HintButton size="mini" type="info" icon="el-icon-info" title="分配权限"
-            @click="$router.push(`/acl/role/auth/${row.id}?roleName=${row.roleName}`)"/>
+            @click="$router.push(`/acl/role/auth/${row._id}?roleName=${row.roleName}`)"/>
 
           <HintButton size="mini" type="primary" icon="el-icon-check" title="确定" 
             @click="updateRole(row)" v-if="row.edit"/>
@@ -124,7 +124,7 @@ export default {
     更新角色
     */
     updateRole (role) {
-      this.$API.role.updateById({id: role.id, roleName: role.roleName})
+      this.$API.role.updateById({_id: role._id, roleName: role.roleName})
         .then(result => {
           this.$message.success(result.message|| '更新角色成功!')
           this.getRoles(this.page)
@@ -205,11 +205,11 @@ export default {
     /* 
     删除指定的角色
     */
-    removeRole ({id, roleName}) {
+    removeRole ({_id, roleName}) {
       this.$confirm(`确定删除 '${roleName}' 吗?`, '提示', {
         type: 'warning'
       }).then(async () => {
-        const result = await this.$API.role.removeById(id)
+        const result = await this.$API.role.removeByIds([_id])
         this.getRoles(this.roles.length===1 ? this.page-1 : this.page)
         this.$message.success(result.message || '删除成功!')
       }).catch(() => {
@@ -231,8 +231,8 @@ export default {
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
         type: 'warning'
       }).then(async () => {
-        const ids = this.selectedRoles.map(role => role.id)
-        const result = await this.$API.role.removeRoles(ids)
+        const ids = this.selectedRoles.map(role => role._id)
+        const result = await this.$API.role.removeByIds(ids)
         this.getRoles()
         this.$message({
           type: 'success',

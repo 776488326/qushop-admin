@@ -5,7 +5,7 @@
       style="margin: 20px 0"
       ref="tree"
       :data="allPermissions" 
-      node-key="id"  
+      node-key="_id"  
       show-checkbox 
       default-expand-all
       :props="defaultProps" 
@@ -27,6 +27,7 @@
           children: 'children',
           label: 'name'
         },
+        role:{}
       };
     },
 
@@ -43,10 +44,26 @@
         this.getPermissions(roleId)
       },
 
+      async getPermissions(roleId){
+        const res = await this.$API.permission.getPermissionList();
+        if(res.code==200){
+          this.allPermissions = res.data.children;
+          const res1 = await this.$API.role.getById(roleId);
+          if(res1.code==200){
+            const checkedIds = res1.data.authorityList;
+            this.role = res1.data;
+            this.$refs.tree.setCheckedKeys(checkedIds)
+          }else{
+            this.$message.error(res1.msg);
+          }
+        }else{
+          this.$message({"type":"error","message":res.msg});
+        }
+      },
       /* 
       获取指定角色的权限列表
       */
-      getPermissions(roleId) {
+      /*getPermissions(roleId) {
         this.$API.permission.toAssign(roleId).then(result => {
           const allPermissions = result.data
           this.allPermissions = allPermissions
@@ -54,12 +71,12 @@
           // console.log('getPermissions() checkedIds', checkedIds)
           this.$refs.tree.setCheckedKeys(checkedIds)
         })
-      },
+      },*/
 
       /* 
       得到所有选中的id列表
       */
-      getCheckedIds (auths, initArr = []) {
+      /*getCheckedIds (auths, initArr = []) {
         return auths.reduce((pre, item) => {
           if (item.select && item.level===4) {
             pre.push(item.id)
@@ -68,30 +85,30 @@
           }
           return pre
         }, initArr)
-      },
+      },*/
 
       /* 
       保存权限列表
       */
-      save() {
-        var ids = this.$refs.tree.getCheckedKeys().join(",")
-        /* 
-        vue elementUI tree树形控件获取父节点ID的实例
-        修改源码:
-        情况1: element-ui没有实现按需引入打包
-          node_modules\element-ui\lib\element-ui.common.js    25382行修改源码  去掉 'includeHalfChecked &&'
-          // if ((child.checked || includeHalfChecked && child.indeterminate) && (!leafOnly || leafOnly && child.isLeaf)) {
-          if ((child.checked || child.indeterminate) && (!leafOnly || leafOnly && child.isLeaf)) {
-        情况2: element-ui实现了按需引入打包
-          node_modules\element-ui\lib\tree.js    1051行修改源码  去掉 'includeHalfChecked &&'
-          // if ((child.checked || includeHalfChecked && child.indeterminate) && (!leafOnly || leafOnly && child.isLeaf)) {
-          if ((child.checked || child.indeterminate) && (!leafOnly || leafOnly && child.isLeaf)) {
-        */
+      async save() {
+        var ids = this.$refs.tree.getCheckedKeys()
+        var data = this.$refs.tree.getCheckedNodes(false,true)
         this.loading = true
-        this.$API.permission.doAssign(this.$route.params.id, ids).then(result => {
-          this.loading = false
-          this.$message.success(result.$message || '分配权限成功')
-          // 必须在跳转前获取(跳转后通过this获取不到正确的数据了)
+        this.role.authorityList = ids;
+        this.role.routes = [];
+        this.role.buttons = [];
+        data.forEach((item) => {
+          if(item.level==1||item.level==2){
+            this.role.routes.push(item.code)
+          }else{
+            this.role.buttons.push(item.code)
+          }
+        });
+
+        const res = await this.$API.role.updateById(this.role);
+        if(res.code==200){
+          this.loading = false;
+          this.$message.success(res.$msg || '分配权限成功')
           const roleName = this.$route.query.roleName
           const roles = this.$store.getters.roles
           this.$router.replace('/acl/role/list', () => {
@@ -101,7 +118,7 @@
               window.location.reload()
             }
           })
-        })
+        }
       }
     }
   };

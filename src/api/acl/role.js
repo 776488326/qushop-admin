@@ -54,37 +54,13 @@ export default {
   },
 
   /* 
-  获取一个角色的所有权限列表
+  删除角色
   */
-  getAssign(roleId) {
+  removeByIds(ids) {
     return request({
-      url: `${api_name}/info/`,
-      method: 'get',
-      params: {
-        roleId,
-        authority:true
-      }
-    })
-  },
-
-  /* 
-  删除某个角色
-  */
-  removeById(id) {
-    return request({
-      url: `${api_name}/remove/${id}`,
-      method: 'delete'
-    })
-  },
-
-  /* 
-  批量删除多个角色
-  */
-  removeRoles(ids) {
-    return request({
-      url: `${api_name}/batchRemove`,
+      url: `${api_name}/del`,
       method: 'delete',
-      data: ids
+      data: {ids}
     })
   }
 }

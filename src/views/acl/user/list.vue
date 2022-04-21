@@ -38,7 +38,7 @@
 
       <el-table-column prop="username" label="用户名" width="150" />
       <el-table-column prop="nickName" label="用户昵称" />
-      <el-table-column prop="roleName" label="权限列表" />
+      <el-table-column prop="roleName" label="角色列表" />
       
       <el-table-column prop="gmtCreate" label="创建时间" width="180"/>
       <el-table-column prop="gmtModified" label="更新时间" width="180"/>
@@ -182,10 +182,10 @@ export default {
       const result = await this.$API.user.getRoles(this.user.id)
       const {allRolesList, assignRoles} = result.data
       this.allRoles = allRolesList
-      this.userRoleIds = assignRoles.map(item => item.id)
+      this.userRoleIds = assignRoles.roles.map(item => item._id)
       
-      this.checkAll = allRolesList.length===assignRoles.length
-      this.isIndeterminate = assignRoles.length>0 && assignRoles.length<allRolesList.length
+      this.checkAll = allRolesList.length===assignRoles.roles.length
+      this.isIndeterminate = assignRoles.roles.length>0 && assignRoles.roles.length<allRolesList.length
     },
 
     /* 
@@ -193,6 +193,7 @@ export default {
     */
     handleCheckedChange (value) {
       const {userRoleIds, allRoles} = this
+      console.log(userRoleIds,allRoles);
       this.checkAll = userRoleIds.length === allRoles.length && allRoles.length>0
       this.isIndeterminate = userRoleIds.length>0 && userRoleIds.length<allRoles.length
     },
@@ -202,13 +203,13 @@ export default {
     */
     async assignRole () {
       const userId = this.user.id
-      const roleIds = this.userRoleIds.join(',')
+      const roleIds = this.userRoleIds
       this.loading = true
       const result = await this.$API.user.assignRoles(userId, roleIds)
       this.loading = false
       this.$message.success(result.message || '分配角色成功')
       this.resetRoleData()
-
+      this.getUsers();
       // console.log(this.$store.getters.name, this.user)
       if (this.$store.getters.name===this.user.username) {
         window.location.reload()
@@ -301,7 +302,8 @@ export default {
     删除某个用户
     */
     async removeUser (id) {
-      await this.$API.user.removeById(id)
+      console.log(id)
+      await this.$API.user.removeUsers([id])
       this.$message.success('删除成功')
       this.getUsers(this.users.length===1 ? this.page-1 : this.page)
     },
@@ -315,9 +317,9 @@ export default {
       this.listLoading = true
       const result = await this.$API.user.getPageList(page, limit, searchObj)
       this.listLoading = false
-      const {items, total} = result.data
-      this.users = items.filter(item => item.username!=='admin')
-      this.total = total-1
+      var {items, total} = result.data
+      this.users = items;
+      this.total = total;
       this.selectedIds = []
     },
 

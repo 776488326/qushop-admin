@@ -3,16 +3,16 @@ import request from '@/utils/request'
 /* 
 权限管理相关的API请求函数
 */
-const api_name = '/admin/acl/permission'
+const api_name = '/admin/auth'
 
 export default {
   
   /* 
-  获取权限(菜单/功能)列表
+  获取菜单列表
   */
   getPermissionList() {
     return request({
-      url: `${api_name}`,
+      url: `${api_name}/list`,
       method: 'get'
     })
   },
@@ -20,19 +20,20 @@ export default {
   /* 
   删除一个权限项
   */
-  removePermission(id) {
+  removePermission(permission) {
     return request({
-      url: `${api_name}/remove/${id}`,
-      method: "delete"
+      url: `${api_name}/del`,
+      method: "delete",
+      data:{permission}
     })
   },
   
   /* 
-  保存一个权限项
+  添加一个权限项
   */
   addPermission(permission) {
     return request({
-      url: `${api_name}/save`,
+      url: `${api_name}/add`,
       method: "post",
       data: permission
     })
@@ -49,24 +50,4 @@ export default {
     })
   },
 
-  /* 
-  查看某个角色的权限列表
-  */
-  toAssign(roleId) {
-    return request({
-      url: `${api_name}/toAssign/${roleId}`,
-      method: 'get'
-    })
-  },
-
-  /* 
-  给某个角色授权
-  */
-  doAssign(roleId, permissionId) {
-    return request({
-      url: `${api_name}/doAssign`,
-      method: "post",
-      params: {roleId, permissionId}
-    })
-  }
 }

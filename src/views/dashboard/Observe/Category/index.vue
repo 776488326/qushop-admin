@@ -26,10 +26,10 @@ export default {
   mounted() {
     //饼图
     let mychart = echarts.init(this.$refs.charts);
-    mychart.setOption({
+    let option = {
       title: {
-        text: "视频",
-        subtext: 1048,
+        text: "销售额分类占比",
+        subtext: "分类占比",
         left: "center",
         top: "center",
       },
@@ -38,7 +38,7 @@ export default {
       },
       series: [
         {
-          name: "Access From",
+          name: "销售额分类占比",
           type: "pie",
           radius: ["40%", "70%"],
           avoidLabelOverlap: false,
@@ -55,15 +55,17 @@ export default {
             show: true,
           },
           data: [
-            { value: 1048, name: "视频" },
-            { value: 735, name: "Direct" },
-            { value: 580, name: "Email" },
-            { value: 484, name: "Union Ads" },
-            { value: 300, name: "Video Ads" },
+            { value: 1048, name: "手机" },
+            { value: 735, name: "厨具" },
+            { value: 580, name: "母婴" },
+            { value: 484, name: "零食" },
+            { value: 300, name: "数码" },
           ],
         },
       ],
-    });
+    }
+    option.series[0].data = 
+    mychart.setOption(option);
     //绑定事件
 
     mychart.on("mouseover",(params)=>{

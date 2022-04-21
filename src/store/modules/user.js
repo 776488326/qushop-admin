@@ -1,11 +1,13 @@
 //引入登录|退出登录|获取用户信息的接口函数
-import { login, logout, getInfo } from '@/api/user'
+import $API from "@/api/index"
 // 获取token|设置token|删除token的函数
 import { getToken, setToken, removeToken } from '@/utils/auth'
 //路由模块当中重置路由的方法
 import { anyRoutes, resetRouter,asyncRoutes,constantRoutes} from '@/router';
 import router from '@/router';
 import cloneDeep from 'lodash/cloneDeep'
+
+const {login,logout,getInfo} = $API.user;
 
 //箭头函数
 const getDefaultState = () => {
@@ -88,8 +90,6 @@ const actions = {
     //解构出用户名与密码
     const { username, password } = userInfo;
     let result = await login({ username: username.trim(), password: password });
-    //注意：当前登录请求现在使用mock数据，mock数据code是20000
-    console.log(result);
     if(result.code==200){
       //vuex存储token
       commit('SET_TOKEN',result.data.token);

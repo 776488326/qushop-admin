@@ -1,34 +1,30 @@
 import request from '@/utils/request'
 
-const api_name = '/admin/acl/user'
+const api_name = '/admin/user'
 
 /*
 登陆
 */
-export function login({ username, password }) {
+//对外暴露登录接口函数
+export function login(data) {
   return request({
-    url: '/admin/acl/index/login',
+    url: `${api_name}/login`,
     method: 'post',
-    data: { username, password }
+    data
   })
 }
-
-/*
-获取用户信息(根据token)
-*/
-export function getInfo() {
+//对外暴露获取用户信息的函数
+export function getInfo(token) {
   return request({
-    url: '/admin/acl/index/info',
-    method: 'get'
+    url: `${api_name}/info`,
+    method: 'get',
+    params: { token }
   })
 }
-
-/*
-登出
-*/
+//对外暴露退出登录函数
 export function logout() {
   return request({
-    url: '/admin/acl/index/logout',
+    url: `${api_name}/logout`,
     method: 'post'
   })
 }
@@ -52,7 +48,7 @@ export function getMenu() {
 */
 export function getPageList(page, limit, searchObj) {
   return request({
-    url: `${api_name}/${page}/${limit}`,
+    url: `${api_name}/list/${page}/${limit}`,
     method: 'get',
     params: searchObj
   })
@@ -73,7 +69,7 @@ export function getById(id) {
 */
 export function add(user) {
   return request({
-    url: `${api_name}/save`,
+    url: `${api_name}/add`,
     method: 'post',
     data: user
   })
@@ -108,7 +104,7 @@ export function assignRoles(userId, roleId) {
   return request({
     url: `${api_name}/doAssign`,
     method: 'post',
-    params: {
+    data: {
       userId,
       roleId
     }
@@ -117,13 +113,6 @@ export function assignRoles(userId, roleId) {
 
 /* 
 删除某个用户
-*/
-export function removeById(id) {
-  return request({
-    url: `${api_name}/remove/${id}`,
-    method: 'delete'
-  })
-}
 
 /* 
 批量删除多个用户
@@ -131,7 +120,7 @@ ids的结构: ids是包含n个id的数组
 */
 export function removeUsers(ids) {
   return request({
-    url: `${api_name}/batchRemove`,
+    url: `${api_name}/del`,
     method: 'delete',
     data: ids
   })
