@@ -36,6 +36,9 @@ date：“2022.03.03”
 - 安装完成后，在cmd中，使用mongod来启动数据库服务器
 - 将服务端的datebase中的数据库文件导入mongodb中
 - cmd命令 mongorestore -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 --drop 文件存在路径
+    - 如果全部为默认配置，则使用mongorestore -d 导入数据库后使用的名字 现有数据库的文件夹路径
+    - 比如此项目默认导入 则可使用 mongorestore -d shopServe （/qushop-admin/database/shopServe）
+    - （）中的路径替换为您电脑中的数据库文件的实际位置即可
     - ![image](./public/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AF%BC%E5%85%A5.png)
 - 启动服务器代码和当前项目即可
 
