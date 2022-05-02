@@ -124,7 +124,7 @@ export default {
       category3Id: "",
       //控制三级联动的可操作性
       page: 1, //分页器当前第几页
-      limit: 3, //每一页需要展示多少条数据
+      limit: 5, //每一页需要展示多少条数据
       records: [], //spu列表的数据
       total: 0, //分页器一共需要展示数据的条数
       scene: 0, //0代表展示SPU列表数据   1 添加SPU|修改SPU   2 添加SKU

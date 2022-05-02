@@ -6,7 +6,7 @@
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
       </div>
-      <app-main />
+      <app-main class="main"/>
     </div>
   </div>
 </template>
@@ -89,5 +89,10 @@ export default {
 
   .mobile .fixed-header {
     width: 100%;
+  }
+  .main{
+    box-sizing: border-box;
+    margin-top: 30px;
+
   }
 </style>

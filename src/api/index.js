@@ -8,6 +8,10 @@ import * as sku from './product/sku';
 import * as user from './acl/user';
 import role from './acl/role';
 import permission from './acl/permission'
+
+//引入站点信息
+import message from './site/message';
+
 //对外暴露
 export default {
      trademark,
@@ -16,5 +20,6 @@ export default {
      spu,
      user,
      role,
-     permission
+     permission,
+     message
 }

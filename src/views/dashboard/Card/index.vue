@@ -4,13 +4,10 @@
       <el-col :span="12">
         <el-card>
           <!-- 第二个card -->
-          <Detail title="访问量" count="80">
+          <Detail title="访问量" :count="message.totalVisit">
              <template slot="charts">
                  <lineCharts></lineCharts>
              </template>
-            <template slot="footer">
-              <span>日访问量 10</span>
-            </template>
           </Detail>
         </el-card>
       </el-col>
@@ -20,9 +17,6 @@
           <Detail title="支付笔数" count="8">
             <template slot="charts">
                <barCharts/>
-            </template>
-            <template slot="footer">
-              <span>转换率64%</span>
             </template>
           </Detail>
         </el-card>
@@ -44,6 +38,21 @@ export default {
     barCharts,
     progressCharts
   },
+  data(){
+    return {
+      message:{
+        totalVisit:0
+      }
+    }
+  },
+  async mounted(){
+    const res = await this.$API.message.reqGetSiteMessage();
+    if(res.code ==200){
+      this.message = res.data;
+    }else{
+      this.$message.error(res.msg);
+    }
+  }
 };
 </script>
 

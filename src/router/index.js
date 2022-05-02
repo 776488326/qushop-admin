@@ -140,6 +140,18 @@ export const asyncRoutes = [
         meta: { title: '品牌管理' }
       },
     ]
+  },
+  {
+    path: '/site',
+    component: Layout,
+    name:"Site",
+    redirect: "/site/message",
+    children: [{
+      path: 'message',
+      name: 'Message',
+      component: () => import('@/views/site'),
+      meta: { title: '站点管理', icon: 'el-icon-eleme' }
+    }]
   }
 ];
 

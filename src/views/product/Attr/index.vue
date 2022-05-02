@@ -217,7 +217,6 @@ export default {
       });
     },
     deleteAttr(row){
-      console.log(row);
       this.$API.attr.reqDeleteAttr(row._id);
       try {
         //提示消失

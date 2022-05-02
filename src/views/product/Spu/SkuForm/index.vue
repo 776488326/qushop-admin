@@ -1,6 +1,10 @@
 <template>
   <div>
     <el-form ref="form" label-width="80px">
+      <el-form-item>
+        <el-checkbox v-model="skuInfo.ishot">是否推荐</el-checkbox>
+        <el-checkbox v-model="skuInfo.isSelect">是否精选</el-checkbox>
+      </el-form-item>
       <el-form-item label="SPU名称">{{ spu.spuName }}</el-form-item>
       <el-form-item label="SKU名称">
         <el-input placeholder="sku名称" v-model="skuInfo.skuName"></el-input>
@@ -114,6 +118,8 @@ export default {
         weight: "",
         skuDesc: "",
         //第三类：需要自己书写代码
+        ishot: false,
+        isSelect: false,
         //默认图片
         skuDefaultImg: "",
         //收集图片的字段
@@ -161,10 +167,12 @@ export default {
       if(res.code==200){
         //收集父组件给予的数据
         const spu = res.data;
+        this.skuInfo.category1Id = spu.category1Id;
+        this.skuInfo.category2Id = spu.category2Id;
         this.skuInfo.category3Id = spu.category3Id;
         this.skuInfo.spuId = spu._id;
         this.skuInfo.tmId = spu.tmId;
-
+        this.spu = spu;
         //获取图片的数据
         let list = spu.spuImageList;
         list.forEach(item=>{
@@ -177,7 +185,6 @@ export default {
         //获取平台属性的数据
         let result = await this.$API.spu.reqBaseSaleAttrList();
         if (result.code == 200) {
-          console.log(result.data);
           this.attrInfoList = result.data;
         }
 

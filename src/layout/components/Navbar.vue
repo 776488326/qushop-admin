@@ -13,7 +13,7 @@
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
             <el-dropdown-item>
-              首页
+              主页
             </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided @click.native="logout">
@@ -58,7 +58,7 @@ export default {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: #e7e2e06c;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
 
   .hamburger-container {
